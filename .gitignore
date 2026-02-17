@@ -2,7 +2,10 @@ node_modules/
 dist/
 .env
 *.db
+*.db-shm
+*.db-wal
 *.sqlite
+server/data/
 uploads/*
 !uploads/.gitkeep
 .DS_Store
