@@ -50,16 +50,17 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/external/v1', externalRoutes);
 
-// Serve client in production
-if (env.NODE_ENV === 'production') {
-  const clientDist = resolve(__dirname, '../../client/dist');
-  app.use(express.static(clientDist));
-  app.get('*', (_req, res) => {
-    res.sendFile(resolve(clientDist, 'index.html'));
-  });
-}
+// Error handler for API routes
+app.use('/api', errorHandler);
 
-// Error handler
+// Serve client in production
+const clientDist = resolve(__dirname, '../../client/dist');
+app.use(express.static(clientDist));
+app.get('*', (_req, res) => {
+  res.sendFile(resolve(clientDist, 'index.html'));
+});
+
+// Catch-all error handler
 app.use(errorHandler);
 
 export default app;

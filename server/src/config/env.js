@@ -12,7 +12,7 @@ const env = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
   DATABASE_PATH: process.env.DATABASE_PATH || resolve(__dirname, '../../data/oracle.db'),
   UPLOAD_DIR: process.env.UPLOAD_DIR || resolve(__dirname, '../../uploads'),
-  CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
 };
 
 export default env;

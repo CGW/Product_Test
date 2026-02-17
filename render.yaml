@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: oracle-app
+    runtime: node
+    plan: free
+    buildCommand: npm run render:build
+    startCommand: npm run render:start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: "*"

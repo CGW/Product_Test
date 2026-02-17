@@ -6,19 +6,26 @@ import { createTenant } from '../services/tenantService.js';
 // Initialize schema
 initializeDatabase();
 
+// Check if already seeded
+const existing = db.prepare("SELECT id FROM tenants WHERE slug = 'system'").get();
+if (existing) {
+  console.log('Database already seeded, skipping.');
+  process.exit(0);
+}
+
 console.log('Seeding database...');
 
 // Create system tenant for global admins
 const systemTenantId = generateId();
 db.prepare(`
-  INSERT OR IGNORE INTO tenants (id, name, slug, business_name, is_active)
+  INSERT INTO tenants (id, name, slug, business_name, is_active)
   VALUES (?, 'System', 'system', 'Oracle App Platform', 1)
 `).run(systemTenantId);
 
 // Create App Owner Admin
 const adminId = generateId();
 db.prepare(`
-  INSERT OR IGNORE INTO users (id, tenant_id, email, display_name, role, onboarding_completed)
+  INSERT INTO users (id, tenant_id, email, display_name, role, onboarding_completed)
   VALUES (?, ?, 'admin@oracleapp.com', 'App Owner', 'app_owner_admin', 1)
 `).run(adminId, systemTenantId);
 
@@ -35,7 +42,7 @@ console.log('Demo tenant created:', demoTenant.slug);
 // Create demo Oracle Card Admin
 const oracleAdminId = generateId();
 db.prepare(`
-  INSERT OR IGNORE INTO users (id, tenant_id, email, display_name, role, onboarding_completed)
+  INSERT INTO users (id, tenant_id, email, display_name, role, onboarding_completed)
   VALUES (?, ?, 'oracle@mysticmoon.com', 'Luna Starweaver', 'oracle_card_admin', 1)
 `).run(oracleAdminId, demoTenant.id);
 
