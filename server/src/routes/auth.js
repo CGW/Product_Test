@@ -104,7 +104,7 @@ router.get('/me', authenticate, (req, res) => {
 router.patch('/me', authenticate, (req, res) => {
   const { display_name } = req.body;
   if (display_name) {
-    db.prepare('UPDATE users SET display_name = ?, updated_at = datetime("now") WHERE id = ?')
+    db.prepare(`UPDATE users SET display_name = ?, updated_at = datetime('now') WHERE id = ?`)
       .run(display_name, req.user.id);
   }
   const user = findUserById(req.user.id);

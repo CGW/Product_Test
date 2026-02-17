@@ -134,7 +134,7 @@ export function updateReadingTemplate(id, tenantId, data) {
 
   if (fields.length === 0) return db.prepare('SELECT * FROM reading_templates WHERE id = ? AND tenant_id = ?').get(id, tenantId);
 
-  fields.push('updated_at = datetime("now")');
+  fields.push(`updated_at = datetime('now')`);
   values.push(id, tenantId);
 
   db.prepare(`UPDATE reading_templates SET ${fields.join(', ')} WHERE id = ? AND tenant_id = ?`).run(...values);

@@ -34,7 +34,7 @@ router.post('/logo', authenticate, tenantContext, requireTenantMatch, requireRol
   upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'Image file required' });
     const url = `/uploads/${req.tenant.id}/${req.file.filename}`;
-    db.prepare('UPDATE tenant_themes SET logo_url = ?, updated_at = datetime("now") WHERE tenant_id = ?')
+    db.prepare(`UPDATE tenant_themes SET logo_url = ?, updated_at = datetime('now') WHERE tenant_id = ?`)
       .run(url, req.tenant.id);
     res.json({ logo_url: url });
   }
@@ -45,7 +45,7 @@ router.post('/about-photo', authenticate, tenantContext, requireTenantMatch, req
   upload.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'Image file required' });
     const url = `/uploads/${req.tenant.id}/${req.file.filename}`;
-    db.prepare('UPDATE tenant_themes SET about_photo_url = ?, updated_at = datetime("now") WHERE tenant_id = ?')
+    db.prepare(`UPDATE tenant_themes SET about_photo_url = ?, updated_at = datetime('now') WHERE tenant_id = ?`)
       .run(url, req.tenant.id);
     res.json({ about_photo_url: url });
   }

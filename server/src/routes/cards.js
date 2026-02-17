@@ -28,7 +28,7 @@ router.post('/:setId/cards', authenticate, tenantContext, requireTenantMatch, re
     keywords || null, upright_meaning || null, reversed_meaning || null);
 
   // Update card count
-  db.prepare('UPDATE card_sets SET card_count = card_count + 1, updated_at = datetime("now") WHERE id = ?').run(req.params.setId);
+  db.prepare(`UPDATE card_sets SET card_count = card_count + 1, updated_at = datetime('now') WHERE id = ?`).run(req.params.setId);
 
   const card = db.prepare('SELECT * FROM cards WHERE id = ?').get(id);
   res.status(201).json({ card });
@@ -51,7 +51,7 @@ router.patch('/:setId/cards/:cardId', authenticate, tenantContext, requireTenant
   }
 
   if (fields.length > 0) {
-    fields.push('updated_at = datetime("now")');
+    fields.push(`updated_at = datetime('now')`);
     values.push(req.params.cardId);
     db.prepare(`UPDATE cards SET ${fields.join(', ')} WHERE id = ?`).run(...values);
   }
@@ -66,7 +66,7 @@ router.post('/:setId/cards/:cardId/image', authenticate, tenantContext, requireT
     if (!req.file) return res.status(400).json({ error: 'Image file required' });
 
     const url = `/uploads/${req.tenant.id}/${req.file.filename}`;
-    db.prepare('UPDATE cards SET image_url = ?, updated_at = datetime("now") WHERE id = ? AND tenant_id = ?')
+    db.prepare(`UPDATE cards SET image_url = ?, updated_at = datetime('now') WHERE id = ? AND tenant_id = ?`)
       .run(url, req.params.cardId, req.tenant.id);
 
     res.json({ image_url: url });
@@ -97,7 +97,7 @@ router.delete('/:setId/cards/:cardId', authenticate, tenantContext, requireTenan
   if (!card) return res.status(404).json({ error: 'Card not found' });
 
   db.prepare('DELETE FROM cards WHERE id = ?').run(req.params.cardId);
-  db.prepare('UPDATE card_sets SET card_count = card_count - 1, updated_at = datetime("now") WHERE id = ?').run(req.params.setId);
+  db.prepare(`UPDATE card_sets SET card_count = card_count - 1, updated_at = datetime('now') WHERE id = ?`).run(req.params.setId);
 
   res.json({ message: 'Card deleted' });
 });

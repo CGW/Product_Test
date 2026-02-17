@@ -22,7 +22,7 @@ export function apiKeyAuth(req, res, next) {
   }
 
   // Update last used
-  db.prepare('UPDATE api_keys SET last_used_at = datetime("now") WHERE id = ?').run(apiKey.id);
+  db.prepare(`UPDATE api_keys SET last_used_at = datetime('now') WHERE id = ?`).run(apiKey.id);
 
   req.tenant = { id: apiKey.tenant_id, slug: apiKey.t_slug, name: apiKey.t_name };
   req.apiKey = apiKey;

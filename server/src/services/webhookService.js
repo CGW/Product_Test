@@ -59,7 +59,7 @@ export function updateWebhook(id, tenantId, updates) {
 
   if (fields.length === 0) return db.prepare('SELECT * FROM webhooks WHERE id = ? AND tenant_id = ?').get(id, tenantId);
 
-  fields.push('updated_at = datetime("now")');
+  fields.push(`updated_at = datetime('now')`);
   values.push(id, tenantId);
   db.prepare(`UPDATE webhooks SET ${fields.join(', ')} WHERE id = ? AND tenant_id = ?`).run(...values);
   return db.prepare('SELECT * FROM webhooks WHERE id = ?').get(id);

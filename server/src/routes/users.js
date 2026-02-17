@@ -43,7 +43,7 @@ router.patch('/:id', authenticate, tenantContext, requireTenantMatch, requireRol
   if (req.body.display_name !== undefined) { fields.push('display_name = ?'); values.push(req.body.display_name); }
 
   if (fields.length > 0) {
-    fields.push('updated_at = datetime("now")');
+    fields.push(`updated_at = datetime('now')`);
     values.push(req.params.id);
     db.prepare(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`).run(...values);
   }

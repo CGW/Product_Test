@@ -60,7 +60,7 @@ router.post('/submit', authenticate, tenantContext, requireTenantMatch, (req, re
     }
 
     // Mark onboarding complete
-    db.prepare('UPDATE users SET onboarding_completed = 1, onboarding_data = ?, updated_at = datetime("now") WHERE id = ?')
+    db.prepare(`UPDATE users SET onboarding_completed = 1, onboarding_data = ?, updated_at = datetime('now') WHERE id = ?`)
       .run(JSON.stringify({ completed_at: new Date().toISOString() }), req.user.id);
   });
 

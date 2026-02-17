@@ -79,7 +79,7 @@ export function updateTenant(id, updates) {
 
   if (fields.length === 0) return getTenantById(id);
 
-  fields.push('updated_at = datetime("now")');
+  fields.push(`updated_at = datetime('now')`);
   values.push(id);
 
   db.prepare(`UPDATE tenants SET ${fields.join(', ')} WHERE id = ?`).run(...values);
@@ -105,7 +105,7 @@ export function updateTenantTheme(tenantId, themeUpdates) {
 
   if (fields.length === 0) return db.prepare('SELECT * FROM tenant_themes WHERE tenant_id = ?').get(tenantId);
 
-  fields.push('updated_at = datetime("now")');
+  fields.push(`updated_at = datetime('now')`);
   values.push(tenantId);
 
   db.prepare(`UPDATE tenant_themes SET ${fields.join(', ')} WHERE tenant_id = ?`).run(...values);

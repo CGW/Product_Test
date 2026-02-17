@@ -46,7 +46,7 @@ export function findOrCreateUser(googleData, tenantId, role = 'user') {
   if (user) {
     // Update avatar if changed
     if (googleData.picture && googleData.picture !== user.avatar_url) {
-      db.prepare('UPDATE users SET avatar_url = ?, updated_at = datetime("now") WHERE id = ?')
+      db.prepare(`UPDATE users SET avatar_url = ?, updated_at = datetime('now') WHERE id = ?`)
         .run(googleData.picture, user.id);
     }
     return user;
@@ -59,7 +59,7 @@ export function findOrCreateUser(googleData, tenantId, role = 'user') {
 
   if (user) {
     // Link google_id to existing account
-    db.prepare('UPDATE users SET google_id = ?, avatar_url = ?, updated_at = datetime("now") WHERE id = ?')
+    db.prepare(`UPDATE users SET google_id = ?, avatar_url = ?, updated_at = datetime('now') WHERE id = ?`)
       .run(googleData.google_id, googleData.picture, user.id);
     return { ...user, google_id: googleData.google_id };
   }

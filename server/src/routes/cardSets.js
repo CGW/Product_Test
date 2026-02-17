@@ -58,7 +58,7 @@ router.patch('/:id', authenticate, tenantContext, requireTenantMatch, requireRol
   if (req.body.is_published !== undefined) { fields.push('is_published = ?'); values.push(req.body.is_published ? 1 : 0); }
 
   if (fields.length > 0) {
-    fields.push('updated_at = datetime("now")');
+    fields.push(`updated_at = datetime('now')`);
     values.push(req.params.id);
     db.prepare(`UPDATE card_sets SET ${fields.join(', ')} WHERE id = ?`).run(...values);
   }
@@ -73,7 +73,7 @@ router.post('/:id/cover', authenticate, tenantContext, requireTenantMatch, requi
     if (!req.file) return res.status(400).json({ error: 'Image file required' });
 
     const url = `/uploads/${req.tenant.id}/${req.file.filename}`;
-    db.prepare('UPDATE card_sets SET cover_image_url = ?, updated_at = datetime("now") WHERE id = ? AND tenant_id = ?')
+    db.prepare(`UPDATE card_sets SET cover_image_url = ?, updated_at = datetime('now') WHERE id = ? AND tenant_id = ?`)
       .run(url, req.params.id, req.tenant.id);
 
     res.json({ cover_image_url: url });
@@ -86,7 +86,7 @@ router.post('/:id/back', authenticate, tenantContext, requireTenantMatch, requir
     if (!req.file) return res.status(400).json({ error: 'Image file required' });
 
     const url = `/uploads/${req.tenant.id}/${req.file.filename}`;
-    db.prepare('UPDATE card_sets SET back_image_url = ?, updated_at = datetime("now") WHERE id = ? AND tenant_id = ?')
+    db.prepare(`UPDATE card_sets SET back_image_url = ?, updated_at = datetime('now') WHERE id = ? AND tenant_id = ?`)
       .run(url, req.params.id, req.tenant.id);
 
     res.json({ back_image_url: url });
